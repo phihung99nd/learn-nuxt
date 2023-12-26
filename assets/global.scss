@@ -1,0 +1,44 @@
+$primary-color: #00dc82;
+$primary-color-darken: #00AC67;
+$primary-color-lighten: #1BFFA4;
+$max-fontsize-available: 24;
+
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none!important;
+  ::-webkit-scrollbar {
+    display: none!important;
+  }
+}
+.w-full {
+  width: 100%;
+}
+
+.text-primary {
+  color: $primary-color!important;
+}
+
+.text-primary-darken {
+  color: $primary-color-darken!important;
+}
+
+.text-primary-lighten {
+  color: $primary-color-lighten!important;
+}
+
+@for $i from 1 through $max-fontsize-available {
+  $fontsize: $i;
+  .my-font-#{$fontsize} {
+    font-size: $fontsize + 0px;
+  }
+}
+
+@for $i from 1 through 6 {
+  $fontweight: $i * 100;
+  .my-weight-#{$fontweight} {
+    font-weight: $fontweight;
+  }
+}
