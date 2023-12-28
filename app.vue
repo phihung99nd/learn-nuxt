@@ -1,11 +1,15 @@
 <script setup>
+const { $bus } = useNuxtApp()
+let pageKey = 0
+
+$bus.$on('locale-change', () => pageKey++)
 </script>
 
 <template>
   <NuxtLoadingIndicator/>
   <v-app>
     <NuxtLayout>
-      <NuxtPage style="padding: 20px;"/>
+      <NuxtPage :key="pageKey"/>
     </NuxtLayout>
   </v-app>
 </template>

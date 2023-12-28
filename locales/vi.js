@@ -9,5 +9,9 @@ export default {
     'Id': 'Mã số',
     'Title': 'Tên',
     'Price': 'Giá',
-    'Image': 'Ảnh'
+    'Image': 'Ảnh',
+    'Detail': 'Chi tiết',
+    'Add to cart': 'Thêm vào giỏ',
+    'Actions': 'Thao tác',
+    'Back': 'Quay lại',
 }
