@@ -3,10 +3,10 @@ import {useI18n} from "vue-i18n";
 import type {CartItem} from "~/stores/cart";
 import {useCartStore} from "~/stores/cart";
 
-const {t} = useI18n({useScope: "global"});
 definePageMeta({
   title: 'Product List'
 })
+const {t, locale} = useI18n({useScope: "global"});
 // similar to data() in Vue 2
 const page = ref(1);
 const limit = ref(10);
@@ -14,6 +14,8 @@ const sort = ref('asc');
 
 // similar to $router in Vue 2
 const router = useRouter()
+
+const { $filter } = useNuxtApp()
 
 const cartStore = useCartStore()
 /**
@@ -63,6 +65,11 @@ function addToCart(item: CartItem) {
             </th>
           </template>
         </tr>
+      </template>
+      <template #item.price="{value}">
+        <div class="d-flex justify-start">
+          {{ $filter.unitPrice(value, locale)}}
+        </div>
       </template>
       <template #item.image="{value}">
         <div class="d-flex justify-center">

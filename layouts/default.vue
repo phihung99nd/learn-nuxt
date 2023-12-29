@@ -2,14 +2,17 @@
 import {mergeProps} from "vue";
 import {useTheme} from 'vuetify'
 import {useCartStore} from "~/stores/cart";
+import {useDisplay} from 'vuetify'
+import {md} from "vuetify/iconsets/md";
 
-const { $bus } = useNuxtApp()
+const {$bus} = useNuxtApp()
 const router = useRouter() // it similar to $router in vue 2
 const route = useRoute() // it similar to $route in vue 2
 const {locales, setLocale} = useI18n() // from Vue-I18n
 
 const cartStore = useCartStore()
 const theme = useTheme()
+const {mdAndUp} = useDisplay()
 
 const crumb = computed(() => {
   const fullPath = route.fullPath
@@ -44,7 +47,8 @@ function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 
-const drawer = ref(true)
+let drawer = ref(false)
+let rail = ref(false)
 
 function changeLanguage(e: string) {
   setLocale(e)
@@ -55,14 +59,36 @@ function checkCart() {
   console.log(cartStore.cart)
 }
 
+function closeDrawer() {
+  if(mdAndUp) {
+    drawer.value = true
+    rail.value = true
+  } else {
+    drawer.value = false
+    rail.value = false
+  }
+}
+
+function openDrawer() {
+  if(mdAndUp) {
+    drawer.value = true
+    rail.value = false
+  } else {
+    drawer.value = false
+    rail.value = false
+  }
+}
+
 </script>
 
 <template>
   <v-layout full-height class="rounded rounded-md">
     <v-navigation-drawer
-        permanent
+        v-model="drawer"
+        :rail="rail"
         :elevation="1"
-        :rail="drawer"
+        :location="mdAndUp ? 'left' : 'bottom'"
+        :permanent="mdAndUp"
         style="position: fixed"
     >
       <v-list-item
@@ -76,9 +102,9 @@ function checkCart() {
       <v-list-item link prepend-icon="mdi-package" :title="$t('Products')" to="/products"></v-list-item>
     </v-navigation-drawer>
 
-    <v-app-bar :height="64" flat style="position: fixed">
-      <v-btn size="small" v-if="drawer" icon="mdi-menu-open" @click="drawer = false"></v-btn>
-      <v-btn size="small" v-else icon="mdi-menu-close" @click="drawer = true"></v-btn>
+    <v-app-bar :height="64" flat style="position: fixed" location="top">
+      <v-btn size="small" v-if="drawer && !rail" icon="mdi-menu-open" @click="closeDrawer"></v-btn>
+      <v-btn size="small" v-else icon="mdi-menu-close" @click="openDrawer"></v-btn>
       <v-app-bar-title>
         <a href="https://nuxt.com/" target="_blank">
           <v-icon icon="mdi-nuxt" color="#00dc82" size="x-large"/>
@@ -120,13 +146,16 @@ function checkCart() {
       </template>
     </v-app-bar>
 
-    <v-main>
+    <v-app-bar :height="64" flat style="position: fixed" location="top">
       <v-breadcrumbs divider="-">
         <v-breadcrumbs-item v-for="(item, index) in crumb" :key="index" :to="item.path">
-          {{$t(item.meta.title)}}
+          {{ $t(item.meta.title) }}
           <v-breadcrumbs-divider v-if="index != crumb.length - 1" divider="/"/>
         </v-breadcrumbs-item>
       </v-breadcrumbs>
+    </v-app-bar>
+
+    <v-main>
       <slot/>
     </v-main>
   </v-layout>

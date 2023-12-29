@@ -1,7 +1,7 @@
 $primary-color: #00dc82;
 $primary-color-darken: #00AC67;
 $primary-color-lighten: #1BFFA4;
-$max-fontsize-available: 24;
+$max-fontsize-available: 50;
 
 html {
   width: 100%;
@@ -40,5 +40,12 @@ html {
   $fontweight: $i * 100;
   .my-weight-#{$fontweight} {
     font-weight: $fontweight;
+  }
+}
+
+@for $i from 1 through 12 {
+  $width: calc(($i / 12) * 100);
+  .my-width-#{$i} {
+    width: $width + 0%;
   }
 }

@@ -4,6 +4,7 @@ import { en, vi } from 'vuetify/locale'
 
 export default defineI18nConfig(() => ({
     legacy: false,
+    fallbackLocale: 'en',
     messages: {
         "en": {
             ...enLocal,

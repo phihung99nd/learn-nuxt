@@ -14,4 +14,6 @@ export default {
     'Add to cart': 'Thêm vào giỏ',
     'Actions': 'Thao tác',
     'Back': 'Quay lại',
+    'reviews': 'đánh giá',
+    'Quantity': 'Số lượng'
 }
