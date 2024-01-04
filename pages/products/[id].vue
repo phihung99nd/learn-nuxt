@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {useCartStore} from "~/stores/cart";
 
-const {$filter} = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
 const {locale} = useI18n()
@@ -10,6 +9,11 @@ const cartStore = useCartStore()
 
 const {pending, data: product, error} = await useFetch(`/api/products/${route.params.id}`)
 let quantity = ref(1)
+
+useHead({
+  title: product.value.title,
+  titleTemplate: title => title ? `${title} · Product detail` : 'Product detail',
+})
 
 function back() {
   router.replace({name: 'products'})
@@ -45,7 +49,7 @@ function addToCart(num: number) {
               class="border-opacity-75"
           ></v-divider>
           <div class="my-font-24 my-weight-600 mt-8">
-            {{ $filter.unitPrice(product.price, locale) }}
+            {{ unitPrice(product.price, locale) }}
           </div>
           <div class="d-flex align-center ga-2 mt-2">
             <v-rating
@@ -55,7 +59,7 @@ function addToCart(num: number) {
                 density="compact"
                 half-increments
                 readonly
-            ></v-rating>
+            />
             <span>{{ product.rating.count }} {{ $t('reviews') }}</span>
           </div>
           <v-row no-gutters class="mt-8">

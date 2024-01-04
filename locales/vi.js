@@ -5,7 +5,9 @@ export default {
     'Light/Dark': 'Sáng/Tối',
     Index: 'Trang chủ',
     Products: 'Sản phẩm',
+    Movies: 'Phim ảnh',
     'Product List': 'Danh sách sản phẩm',
+    'Movie List': 'Danh sách phim ảnh',
     'Id': 'Mã số',
     'Title': 'Tên',
     'Price': 'Giá',
@@ -15,5 +17,6 @@ export default {
     'Actions': 'Thao tác',
     'Back': 'Quay lại',
     'reviews': 'đánh giá',
-    'Quantity': 'Số lượng'
+    'Quantity': 'Số lượng',
+    'Watch trailer': 'Xem trailer'
 }

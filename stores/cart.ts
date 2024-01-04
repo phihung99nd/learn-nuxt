@@ -1,12 +1,5 @@
-export type CartItem = {
-    id: number | string,
-    title: string,
-    price: number | string,
-    category: string,
-    description: string,
-    image: string,
-    quantity: number
-}
+import type {CartItem} from "~/types";
+
 /**
  * Vue Composition API style
  * ref() => state

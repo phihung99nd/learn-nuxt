@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import {mergeProps} from "vue";
-import {useTheme} from 'vuetify'
+import {useTheme, useDisplay} from 'vuetify'
 import {useCartStore} from "~/stores/cart";
-import {useDisplay} from 'vuetify'
-import {md} from "vuetify/iconsets/md";
 
-const {$bus} = useNuxtApp()
+const { $bus } = useNuxtApp()
 const router = useRouter() // it similar to $router in vue 2
 const route = useRoute() // it similar to $route in vue 2
 const {locales, setLocale} = useI18n() // from Vue-I18n
@@ -60,7 +58,7 @@ function checkCart() {
 }
 
 function closeDrawer() {
-  if(mdAndUp) {
+  if (mdAndUp) {
     drawer.value = true
     rail.value = true
   } else {
@@ -70,7 +68,7 @@ function closeDrawer() {
 }
 
 function openDrawer() {
-  if(mdAndUp) {
+  if (mdAndUp) {
     drawer.value = true
     rail.value = false
   } else {
@@ -83,6 +81,7 @@ function openDrawer() {
 
 <template>
   <v-layout full-height class="rounded rounded-md">
+    <!--  Vuetify class: https://vuetifyjs.com/en/styles/border-radius/#usage  -->
     <v-navigation-drawer
         v-model="drawer"
         :rail="rail"
@@ -97,14 +96,15 @@ function openDrawer() {
           title="Learn Nuxt 3"
           subtitle="phihung99nd@gmail.com"
       />
-      <v-divider></v-divider>
-      <v-list-item link prepend-icon="mdi-home" :title="$t('Index')" to="/welcome"></v-list-item>
-      <v-list-item link prepend-icon="mdi-package" :title="$t('Products')" to="/products"></v-list-item>
+      <v-divider/>
+      <v-list-item link prepend-icon="mdi-home" :title="$t('Index')" to="/welcome"/>
+      <v-list-item link prepend-icon="mdi-package" :title="$t('Products')" to="/products"/>
+      <v-list-item link prepend-icon="mdi-movie-roll" :title="$t('Movies')" to="/movies"/>
     </v-navigation-drawer>
 
-    <v-app-bar :height="64" flat style="position: fixed" location="top">
-      <v-btn size="small" v-if="drawer && !rail" icon="mdi-menu-open" @click="closeDrawer"></v-btn>
-      <v-btn size="small" v-else icon="mdi-menu-close" @click="openDrawer"></v-btn>
+    <v-app-bar :height="64" flat style="position: fixed; background: rgb(var(--v-theme-background))" location="top">
+      <v-btn size="small" v-if="drawer && !rail" icon="mdi-menu-open" @click="closeDrawer"/>
+      <v-btn size="small" v-else icon="mdi-menu-close" @click="openDrawer"/>
       <v-app-bar-title>
         <a href="https://nuxt.com/" target="_blank">
           <v-icon icon="mdi-nuxt" color="#00dc82" size="x-large"/>
@@ -146,7 +146,7 @@ function openDrawer() {
       </template>
     </v-app-bar>
 
-    <v-app-bar :height="64" flat style="position: fixed" location="top">
+    <v-app-bar :height="64" flat style="position: fixed; background: rgb(var(--v-theme-background))" location="top">
       <v-breadcrumbs divider="-">
         <v-breadcrumbs-item v-for="(item, index) in crumb" :key="index" :to="item.path">
           {{ $t(item.meta.title) }}

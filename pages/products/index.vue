@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import {useI18n} from "vue-i18n";
-import type {CartItem} from "~/stores/cart";
+import type {CartItem} from "~/types";
 import {useCartStore} from "~/stores/cart";
 
 definePageMeta({
   title: 'Product List'
 })
+
 const {t, locale} = useI18n({useScope: "global"});
+useHead({
+  title: t('Product List')
+})
 // similar to data() in Vue 2
 const page = ref(1);
 const limit = ref(10);
@@ -15,7 +19,6 @@ const sort = ref('asc');
 // similar to $router in Vue 2
 const router = useRouter()
 
-const { $filter } = useNuxtApp()
 
 const cartStore = useCartStore()
 /**
@@ -46,13 +49,19 @@ function addToCart(item: CartItem) {
 
 <template>
   <v-container fluid>
-    <base-page-header :heading="$t($route.meta.title)"/>
+    <base-page-header :heading="$t($route.meta.title)">
+      <template #subtitle>
+        Trong phần này áp dụng kiến thức
+        <a class="text-primary-darken" href="https://nuxt.com/docs/getting-started/data-fetching" target="_blank" >Data fetching</a> và
+        <a class="text-primary-darken" href="https://pinia.vuejs.org/core-concepts/" target="_blank">Pinia store</a>
+      </template>
+    </base-page-header>
     <v-data-table-server
         v-model:items-per-page="limit"
         :headers="headers"
         fixed-header
         hover
-        height="calc(100vh - 280px)"
+        height="calc(100vh - 306px)"
         :items-length="100"
         :items="products as any[]"
         :loading="pending"
@@ -68,7 +77,7 @@ function addToCart(item: CartItem) {
       </template>
       <template #item.price="{value}">
         <div class="d-flex justify-start">
-          {{ $filter.unitPrice(value, locale)}}
+          {{ unitPrice(value, locale) }}
         </div>
       </template>
       <template #item.image="{value}">
