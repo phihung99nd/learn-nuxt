@@ -4,7 +4,7 @@ import {getMovieById} from "~/composables/api/tmdb";
 import {useMounted} from "@vueuse/core";
 
 const route = useRoute()
-const {mdAndUp} = useDisplay()
+const {mdAndUp, smAndDown} = useDisplay()
 const mounted = useMounted()
 const showModal = useIFrameModal()
 const wideHero = ref(true)       // check if hero width is wide enough to show content
@@ -40,7 +40,7 @@ function playTrailer() {
 
 <template>
   <div v-show="!pending">
-    <div class="hero-container" :class="{md: mdAndUp && wideHero}"
+    <div class="hero-container" :class="{md: mdAndUp && wideHero, sm: smAndDown && !wideHero}"
          :style="{'view-transition-name': `movie-${movie.id}`}" ref="el">
       <NuxtImg
           class="backdrop h-full"
@@ -49,35 +49,42 @@ function playTrailer() {
           fit="cover"
           :src="provideImgUrl(movie.backdrop_path)"
       />
-      <div class="d-flex align-center meta-info">
+      <div class="d-flex meta-info" :class="{[`align-${smAndDown && !wideHero ? 'end' : 'center'}`]: true}">
         <Transition appear name="backdrop">
           <div v-show="mounted">
-            <h1 class="mt-2 my-font-48 my-weight-400 my-clamp-2">
+            <h1
+                class="mt-2 my-weight-400"
+                :class="{
+                    [`my-clamp-${smAndDown && !wideHero ? 1 : 2}`]: true,
+                    [`my-font-${smAndDown && !wideHero ? 32 : 48}`]: true
+            }">
               {{ movie.title || movie.name }}
             </h1>
-            <div class="d-flex align-center mt-2 ga-2">
-              <v-rating
-                  color="#00AC67"
-                  :model-value="formatRating(movie.vote_average)/2"
-                  size="x-small"
-                  density="comfortable"
-                  half-increments
-                  readonly
-              />
-              <span class="op50">{{ formatRating(movie.vote_average) }}</span>
-              <span class="op50">·</span>
-              <span class="op50">{{ movie.vote_count }} {{ $t('reviews') }}</span>
-              <span class="op50" v-if="movie.release_date">·</span>
-              <span class="op50" v-if="movie.release_date">{{ movie.release_date.slice(0, 4) }}</span>
-            </div>
-            <p class="mt-2 op80" :class="{[`my-clamp-${mdAndUp && wideHero ? 5 : 3}`]: true}">
-              {{ movie.overview }}
-            </p>
-            <div class="mt-5 mb-5">
-              <v-btn prepend-icon="mdi-play-outline" variant="tonal" size="large" @click="playTrailer">
-                {{ $t('Watch trailer') }}
-              </v-btn>
-            </div>
+            <template v-if="!(smAndDown && !wideHero)">
+              <div class="d-flex align-center mt-2 ga-2">
+                <v-rating
+                    color="#00AC67"
+                    :model-value="formatRating(movie.vote_average)/2"
+                    size="x-small"
+                    density="comfortable"
+                    half-increments
+                    readonly
+                />
+                <span class="op50">{{ formatRating(movie.vote_average) }}</span>
+                <span class="op50">·</span>
+                <span class="op50">{{ movie.vote_count }} {{ $t('reviews') }}</span>
+                <span class="op50" v-if="movie.release_date">·</span>
+                <span class="op50" v-if="movie.release_date">{{ movie.release_date.slice(0, 4) }}</span>
+              </div>
+              <p class="mt-2 op80" :class="{[`my-clamp-${mdAndUp && wideHero ? 5 : 3}`]: true}">
+                {{ movie.overview }}
+              </p>
+            </template>
+              <div class="mt-5 mb-5">
+                <v-btn prepend-icon="mdi-play-outline" variant="tonal" size="large" @click="playTrailer">
+                  {{ $t('Watch trailer') }}
+                </v-btn>
+              </div>
           </div>
         </Transition>
       </div>
@@ -127,6 +134,13 @@ function playTrailer() {
       padding: 0 100px;
       display: flex;
       align-items: center;
+    }
+  }
+
+  &.sm {
+    .backdrop {
+      width: 100%;
+      height: auto!important;
     }
   }
 }
