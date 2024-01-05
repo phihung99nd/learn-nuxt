@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useCartStore} from "~/stores/cart";
+import {getProductById} from "~/composables/api/fakestore";
 
 const router = useRouter()
 const route = useRoute()
@@ -7,7 +8,7 @@ const {locale} = useI18n()
 
 const cartStore = useCartStore()
 
-const {pending, data: product, error} = await useFetch(`/api/products/${route.params.id}`)
+const {pending, data: product, error} = await useAsyncData('product-id', () => getProductById(route.params.id))
 let quantity = ref(1)
 
 useHead({

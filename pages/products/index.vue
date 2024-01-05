@@ -2,6 +2,7 @@
 import {useI18n} from "vue-i18n";
 import type {CartItem} from "~/types";
 import {useCartStore} from "~/stores/cart";
+import {getProductList} from "~/composables/api/fakestore";
 
 definePageMeta({
   title: 'Product List'
@@ -12,7 +13,6 @@ useHead({
   title: t('Product List')
 })
 // similar to data() in Vue 2
-const page = ref(1);
 const limit = ref(10);
 const sort = ref('asc');
 
@@ -24,9 +24,14 @@ const cartStore = useCartStore()
 /**
  * Fetch API from ~/server/api/products/get
  */
-const {pending, data: products, error} = await useFetch('/api/products', {
-  query: {page, limit, sort},
-  watch: [page, limit, sort]
+const {pending, data: products, error} = await useAsyncData('products-list', () => {
+  const params = {
+    limit: limit.value,
+    sort: sort.value
+  }
+  return getProductList(params)
+}, {
+  watch: [limit, sort]
 })
 
 
