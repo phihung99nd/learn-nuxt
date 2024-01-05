@@ -67,9 +67,6 @@ export default defineNuxtConfig({
         strategy: 'no_prefix',
         vueI18n: "~/locales/i18n.config.ts",
     },
-    alias: {
-        pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
-    },
     vite: {
         vue: {
             template: {

@@ -1,16 +1,36 @@
 <script setup lang="ts">
-import { useDisplay } from 'vuetify'
+import {useDisplay} from 'vuetify'
 import {getMovieById} from "~/composables/api/tmdb";
 import {useMounted} from "@vueuse/core";
 
 const route = useRoute()
-const { mdAndUp } = useDisplay()
+const {mdAndUp} = useDisplay()
 const mounted = useMounted()
+const showModal = useIFrameModal()
+const wideHero = ref(true)       // check if hero width is wide enough to show content
+const el = ref<HTMLDivElement>() // element hero-container
+const observer = ref()           // ResizeObserver API: https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver/ResizeObserver
+const observerDebounce = ref()   // observer debounce state
+
+onMounted(() => {
+  observer.value = new ResizeObserver(entries => {
+    clearTimeout(observerDebounce.value)
+    observerDebounce.value = setTimeout(() => {
+      console.log(entries)
+      wideHero.value = entries[0]?.target?.offsetWidth >= 960
+    }, 200)
+  })
+  observer.value.observe(el.value, {attributes: true})
+})
+
+onBeforeUnmount(() => {
+  observer.value.unobserve(el.value)
+})
 
 const {pending, data: movie, error} = await useAsyncData('movie-id', () => getMovieById(route.params.id))
 
-const showModal = useIFrameModal()
 const trailer = computed(() => getTrailer(movie.value))
+
 
 function playTrailer() {
   if (trailer.value)
@@ -20,7 +40,8 @@ function playTrailer() {
 
 <template>
   <div v-show="!pending">
-    <div class="hero-container" :class="{lg: mdAndUp}" :style="{'view-transition-name': `movie-${movie.id}`}">
+    <div class="hero-container" :class="{md: mdAndUp && wideHero}"
+         :style="{'view-transition-name': `movie-${movie.id}`}" ref="el">
       <NuxtImg
           class="backdrop h-full"
           width="1000"
@@ -32,7 +53,7 @@ function playTrailer() {
         <Transition appear name="backdrop">
           <div v-show="mounted">
             <h1 class="mt-2 my-font-48 my-weight-400 my-clamp-2">
-              {{ movie.title || movie.name}}
+              {{ movie.title || movie.name }}
             </h1>
             <div class="d-flex align-center mt-2 ga-2">
               <v-rating
@@ -43,14 +64,14 @@ function playTrailer() {
                   half-increments
                   readonly
               />
-              <span class="op50">{{formatRating(movie.vote_average)}}</span>
+              <span class="op50">{{ formatRating(movie.vote_average) }}</span>
               <span class="op50">·</span>
-              <span class="op50">{{movie.vote_count}} {{$t('reviews')}}</span>
+              <span class="op50">{{ movie.vote_count }} {{ $t('reviews') }}</span>
               <span class="op50" v-if="movie.release_date">·</span>
-              <span class="op50" v-if="movie.release_date">{{movie.release_date.slice(0, 4)}}</span>
+              <span class="op50" v-if="movie.release_date">{{ movie.release_date.slice(0, 4) }}</span>
             </div>
-            <p class="mt-2 op80" :class="{[`my-clamp-${mdAndUp ? 5 : 3}`]: true}">
-              {{movie.overview}}
+            <p class="mt-2 op80" :class="{[`my-clamp-${mdAndUp && wideHero ? 5 : 3}`]: true}">
+              {{ movie.overview }}
             </p>
             <div class="mt-5 mb-5">
               <v-btn prepend-icon="mdi-play-outline" variant="tonal" size="large" @click="playTrailer">
@@ -61,7 +82,7 @@ function playTrailer() {
         </Transition>
       </div>
     </div>
-<!--    <MovieDetail :movie="movie"/>-->
+    <!--    <MovieDetail :movie="movie"/>-->
   </div>
 </template>
 
@@ -71,6 +92,7 @@ function playTrailer() {
   width: 100%;
   aspect-ratio: 3/2;
   position: relative;
+
   .backdrop {
     position: absolute;
     top: 0;
@@ -83,11 +105,11 @@ function playTrailer() {
     position: absolute;
     left: 0;
     bottom: 0;
-    background-image: linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%);
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 100%);
     padding: 40px;
   }
 
-  &.lg {
+  &.md {
     aspect-ratio: 25/9;
 
     .backdrop {
@@ -101,7 +123,7 @@ function playTrailer() {
       position: absolute;
       top: 0;
       left: 0;
-      background-image: linear-gradient(90deg, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+      background-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 65%, rgba(0, 0, 0, 0) 100%);
       padding: 0 100px;
       display: flex;
       align-items: center;
@@ -115,5 +137,22 @@ function playTrailer() {
 
 .op80 {
   opacity: 0.8;
+}
+
+.backdrop-enter-active,
+.backdrop-leave-active {
+  transition: transform .75s cubic-bezier(.4, .25, .3, 1), opacity .5s cubic-bezier(.4, .25, .3, 1);
+}
+
+.backdrop-enter-from,
+.backdrop-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+}
+
+.backdrop-enter-to,
+.backdrop-leave-from {
+  opacity: 1;
+  transform: translateZ(0);
 }
 </style>

@@ -73,3 +73,41 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## List kiến thức
+
+### 1. Javascript / Typescript
+
+- [View transition API](https://developer.mozilla.org/en-US/docs/Web/API/ViewTransition)
+- [ResizeObserver API](https://developer.mozilla.org/en-US/docs/Web/API/Resize_Observer_API)
+
+### 2. Vue 3
+
+- [Ref / Reactive state / Computed / Watch](https://vuejs.org/api/reactivity-core.html#ref)
+- [Props](https://vuejs.org/guide/components/props.html#props)
+- [Provide / Inject](https://vuejs.org/guide/components/provide-inject.html#provide-inject)
+- [Event bus](https://v3-migration.vuejs.org/breaking-changes/events-api.html)
+- [New lifecycle hook](https://vuejs.org/api/composition-api-lifecycle.html#composition-api-lifecycle-hooks)
+
+### 3. Nuxt 3
+
+- [Auto-importing](https://nuxt.com/docs/guide/concepts/auto-imports)
+- [Basic folder structure](https://nuxt.com/docs/guide/directory-structure/nuxt)
+
+  - components (auto-imported components)
+  - composables (auto-imported utilities)
+  - layouts (reusable layout)
+  - middleware (navigation guard)
+  - pages (file-base routing)
+  - plugins (load plugin like event bus, vuetify, etc.)
+  - server (register API and server handler)
+  - stores (Pinia state management)
+- Metadata, SEO
+- Data fetching with 2 ways ([composables](./composables/api) / [server](./server/api))
+- Global state management by Pinia in [store](./stores)
+- Singleton
+
+### 4. Library
+
+- [Vuetify](https://vuetifyjs.com/)
+- [I18n](https://i18n.nuxtjs.org/)
