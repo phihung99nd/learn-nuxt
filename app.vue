@@ -1,4 +1,5 @@
 <script setup>
+import { SpeedInsights } from "@vercel/speed-insights/nuxt"
 const {$bus} = useNuxtApp()
 let pageKey = 0
 
@@ -7,6 +8,7 @@ $bus.$on('locale-change', () => pageKey++)
 
 <template>
   <NuxtLoadingIndicator/>
+  <SpeedInsights />
   <IFrameModal/>
   <v-app>
     <NuxtLayout>

@@ -26,6 +26,8 @@
     "@mdi/font": "^7.3.67",
     "@nuxt/image": "^1.1.0",
     "@pinia/nuxt": "^0.5.1",
+    "@vercel/analytics": "^1.1.1",
+    "@vercel/speed-insights": "^1.0.2",
     "lru-cache": "^10.1.0",
     "mitt": "^3.0.1",
     "nuxt-icon": "^0.6.7",
