@@ -56,8 +56,8 @@ function addToCart(item: CartItem) {
   <v-container fluid>
     <base-page-header :heading="$t($route.meta.title)">
       <template #subtitle>
-        Trong phần này áp dụng kiến thức
-        <a class="text-primary-darken" href="https://nuxt.com/docs/getting-started/data-fetching" target="_blank" >Data fetching</a> và
+        {{$t('This section using')}}
+        <a class="text-primary-darken" href="https://nuxt.com/docs/getting-started/data-fetching" target="_blank" >Data fetching</a> {{$t('and')}}
         <a class="text-primary-darken" href="https://pinia.vuejs.org/core-concepts/" target="_blank">Pinia store</a>
       </template>
     </base-page-header>

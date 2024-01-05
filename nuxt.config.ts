@@ -34,6 +34,7 @@ export default defineNuxtConfig({
         'nuxt-icon',
         '@pinia/nuxt',
         '@nuxt/image',
+        '@nuxtjs/google-fonts',
         '@nuxtjs/i18n',
         (_options, nuxt) => {
             nuxt.hooks.hook('vite:extendConfig', (config) => {
@@ -44,6 +45,7 @@ export default defineNuxtConfig({
     experimental: {
         viewTransition: true,
     },
+    // @nuxt/image
     image: {
         inject: true,
         // https://image.nuxt.com/advanced/custom-provider
@@ -57,6 +59,13 @@ export default defineNuxtConfig({
             },
         },
     },
+    // @nuxt.google-fonts
+    googleFonts: {
+        families: {
+            Roboto: true
+        },
+    },
+    // @nuxt/i18n
     i18n: {
         locales: [
             {code: 'vi', name: 'Vietnamese'},

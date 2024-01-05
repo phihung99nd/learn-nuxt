@@ -23,14 +23,14 @@ const {pending, data: movies, error} = await useAsyncData('movie-list', () => ge
   <v-container fluid>
     <base-page-header :heading="$t($route.meta.title)">
       <template #subtitle>
-        Trong phần này áp dụng kiến thức
+        {{$t('This section using')}}
         <a
             class="text-primary-darken"
             href="https://nuxt.com/docs/guide/directory-structure/composables"
             target="_blank"
         >
           Composables
-        </a> và
+        </a> {{ $t('and') }}
         <a
             class="text-primary-darken"
             href="https://nuxt.com/docs/getting-started/transitions#view-transitions-api-experimental"

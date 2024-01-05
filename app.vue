@@ -1,14 +1,17 @@
 <script setup>
-import { SpeedInsights } from "@vercel/speed-insights/nuxt"
-const {$bus} = useNuxtApp()
-let pageKey = 0
+import {SpeedInsights} from "@vercel/speed-insights/nuxt"
 
-$bus.$on('locale-change', () => pageKey++)
+const {$bus} = useNuxtApp()
+const pageKey = ref(0)
+
+$bus.$on('locale-change', () => pageKey.value++)
 </script>
 
 <template>
   <NuxtLoadingIndicator/>
-  <SpeedInsights />
+  <ClientOnly>
+    <SpeedInsights/>
+  </ClientOnly>
   <IFrameModal/>
   <v-app>
     <NuxtLayout>

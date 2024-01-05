@@ -3,6 +3,8 @@ export default {
     'Vietnamese': 'Tiếng Việt',
     'English': 'Tiếng Anh',
     'Light/Dark': 'Sáng/Tối',
+    'This section using': 'Trong phần này áp dụng kiến thức',
+    'and': 'và',
     Index: 'Trang chủ',
     Products: 'Sản phẩm',
     Movies: 'Phim ảnh',
