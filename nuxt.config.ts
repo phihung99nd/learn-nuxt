@@ -20,6 +20,12 @@ export default defineNuxtConfig({
     css: [
         '~/assets/global.scss',
     ],
+    nitro: {
+      plugins: ['~/server/plugins/mongodb.ts']
+    },
+    runtimeConfig: {
+      mongodbUri: process.env.MONGODB_URI
+    },
     imports: {
         dirs: [
             // Scan top-level modules
@@ -36,6 +42,7 @@ export default defineNuxtConfig({
         '@nuxt/image',
         '@nuxtjs/google-fonts',
         '@nuxtjs/i18n',
+        '@formkit/auto-animate/nuxt',
         (_options, nuxt) => {
             nuxt.hooks.hook('vite:extendConfig', (config) => {
                 // @ts-expect-error

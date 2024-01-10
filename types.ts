@@ -25,3 +25,17 @@ export type Movie = {
     vote_average: number,
     vote_count: number,
 }
+
+export type TodoItem = {
+    _id: string,
+    name: string,
+    checked: boolean
+}
+
+export type TodoList = {
+    _id: string,
+    name: string,
+    description: string,
+    color: string,
+    items: Array<TodoItem>
+}

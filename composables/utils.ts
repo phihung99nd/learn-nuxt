@@ -9,6 +9,10 @@ export const unitPrice = (price: number | string, locale: string = 'vi') => {
     }
 }
 
+export const arrayRandom = (array: any[]) => {
+    return array[Math.floor((Math.random()*array.length))]
+}
+
 export const provideImgUrl = (path: string) =>  {
     return movieBaseUrl+path
 }

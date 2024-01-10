@@ -100,6 +100,7 @@ function openDrawer() {
       <v-list-item link prepend-icon="mdi-home" :title="$t('Index')" to="/welcome"/>
       <v-list-item link prepend-icon="mdi-package" :title="$t('Products')" to="/products"/>
       <v-list-item link prepend-icon="mdi-movie-roll" :title="$t('Movies')" to="/movies"/>
+      <v-list-item link prepend-icon="mdi-list-status" :title="$t('Todo List')" to="/todo"/>
     </v-navigation-drawer>
 
     <v-app-bar :height="64" flat style="position: fixed; background: rgb(var(--v-theme-background))" location="top">
