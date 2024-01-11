@@ -16,6 +16,7 @@ function back() {
 }
 
 async function addNewItem() {
+  if(!newItem.value) return
   await useFetch(`/api/${route.params.id}/todoItem`, {
     method: 'POST',
     body: {name: newItem.value, checked: false},

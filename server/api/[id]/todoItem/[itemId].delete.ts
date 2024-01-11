@@ -9,6 +9,10 @@ export default defineEventHandler(async event => {
             {new: true}
         )
     } catch (e) {
-
+        console.error(e);
+        throw createError({
+            statusCode: 500,
+            statusMessage: 'Something went wrong',
+        })
     }
 })

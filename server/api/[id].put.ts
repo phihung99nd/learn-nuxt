@@ -10,8 +10,12 @@ export default defineEventHandler(async event => {
                 statusMessage: 'Invalid form data',
             })
         }
-        await TodoList.findByIdAndUpdate(params.id, body)
+        await TodoList.findByIdAndUpdate(params.id, body, { runValidators: true, new: true })
     } catch (e) {
-
+        console.error(e);
+        throw createError({
+            statusCode: 500,
+            statusMessage: 'Something went wrong',
+        })
     }
 })

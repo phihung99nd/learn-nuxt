@@ -6,6 +6,7 @@ definePageMeta({
 })
 
 const router = useRouter()
+const { $rule } = useNuxtApp()
 
 const dialog = ref(false)
 const addForm = ref({
@@ -21,6 +22,7 @@ const {pending, data, refresh, error} = await useFetch('/api/todoList', {
 })
 
 const todoList = ref(data)
+const addFormRef = ref()
 
 function cancelAdd() {
   addForm.value.name = ''
@@ -29,11 +31,14 @@ function cancelAdd() {
 }
 
 async function addTodoList() {
+  const {valid} = await addFormRef.value.validate()
+  if(!valid) return
   await useFetch('/api/todoList', {
     method: 'POST',
     body: {name: addForm.value.name, description: addForm.value.description, color: arrayRandom(cardColors.value)},
     onResponse({response: res}) {
-      router.push({name: 'todo-id', params: {id: res._data}})
+      if (res.ok)
+        router.push({name: 'todo-id', params: {id: res._data}})
       // addForm.value.name = ''
       // addForm.value.description = ''
       // dialog.value = false
@@ -49,9 +54,10 @@ async function addTodoList() {
   <v-container fluid>
     <base-page-header :heading="$t($route.meta.title)">
       <template #subtitle>
-        {{$t('This section using')}}
-        <a class="text-primary-darken" href="https://nuxt.com/docs/getting-started/data-fetching" target="_blank" >MongoDB</a> {{$t('and')}}
-        <a class="text-primary-darken" href="https://pinia.vuejs.org/core-concepts/" target="_blank">Mongoose</a>
+        {{ $t('This section using') }}
+        <a class="text-primary-darken" href="https://www.mongodb.com/en-us" target="_blank">MongoDB</a>
+        {{ $t('and') }}
+        <a class="text-primary-darken" href="https://mongoosejs.com/" target="_blank">Mongoose</a>
       </template>
     </base-page-header>
     <v-btn class="mb-10" color="#ba1ae5" @click="dialog = true">{{ $t('Add new to-do list') }}</v-btn>
@@ -61,21 +67,24 @@ async function addTodoList() {
     >
       <v-card :title="$t('Add new to-do list')">
         <v-container>
-          <v-text-field
-              :label="$t('Title')"
-              v-model="addForm.name"
-              variant="underlined"
-              maxlength="25"
-              counter
-              autofocus
-          ></v-text-field>
-          <v-text-field
-              :label="$t('Description')"
-              v-model="addForm.description"
-              variant="underlined"
-              maxlength="100"
-              counter
-          ></v-text-field>
+          <v-form ref="addFormRef">
+            <v-text-field
+                :label="$t('Title')"
+                v-model="addForm.name"
+                variant="underlined"
+                :rules="[$rule.required]"
+                maxlength="25"
+                counter
+                autofocus
+            ></v-text-field>
+            <v-text-field
+                :label="$t('Description')"
+                v-model="addForm.description"
+                variant="underlined"
+                maxlength="100"
+                counter
+            ></v-text-field>
+          </v-form>
         </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>

@@ -13,7 +13,7 @@ export default defineEventHandler(async event => {
         await TodoList.findByIdAndUpdate(
             params.id,
             { $push: {items: body}},
-            { new: true }
+            { new: true, runValidators: true }
         )
     } catch (e) {
         throw createError({

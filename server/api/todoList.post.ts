@@ -10,9 +10,10 @@ export default defineEventHandler(async event => {
             })
         }
         const doc = new TodoList(body)
-        doc.save()
+        await doc.save()
         return doc._id.toHexString()
     } catch (e) {
+        console.error(e);
         throw createError({
             statusCode: 500,
             statusMessage: 'Something went wrong',

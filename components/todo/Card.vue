@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import type {TodoList} from "~/types";
-import {arrayRandom} from "~/composables/utils";
 
 const props = defineProps<{
   item: TodoList,
 }>()
 const emit = defineEmits(['refresh'])
 
+const { $rule } = useNuxtApp()
 const router = useRouter()
 const dialog = ref(false)
 const state = reactive({
   editForm: {name: '', description: ''},
   newItem: {name: '', checked: false}
 })
+
+const editFormRef = ref()
 
 async function editList() {
   const {data} = await useFetch(`/api/${props.item._id}`, {
@@ -39,6 +41,8 @@ function cancelAdd() {
 }
 
 async function editTodoList() {
+  const {valid} = await editFormRef.value.validate()
+  if(!valid) return
   await useFetch(`/api/${props.item._id}`, {
     method: 'PUT',
     body: {name: state.editForm.name, description: state.editForm.description},
@@ -50,6 +54,7 @@ async function editTodoList() {
     },
   })
 }
+
 function toListDetail() {
   router.push({name: 'todo-id', params: {id: props.item._id}})
 }
@@ -85,23 +90,26 @@ function toListDetail() {
         v-model="dialog"
         width="300"
     >
-      <v-card :title="$t('Add new to-do list')">
+      <v-card :title="$t('Edit to-do list')">
         <v-container>
-          <v-text-field
-              :label="$t('Title')"
-              v-model="state.editForm.name"
-              variant="underlined"
-              maxlength="25"
-              counter
-              autofocus
-          ></v-text-field>
-          <v-text-field
-              :label="$t('Description')"
-              v-model="state.editForm.description"
-              variant="underlined"
-              maxlength="100"
-              counter
-          ></v-text-field>
+          <v-form ref="editFormRef">
+            <v-text-field
+                :label="$t('Title')"
+                v-model="state.editForm.name"
+                :rules="[$rule.required]"
+                variant="underlined"
+                maxlength="25"
+                counter
+                autofocus
+            ></v-text-field>
+            <v-text-field
+                :label="$t('Description')"
+                v-model="state.editForm.description"
+                variant="underlined"
+                maxlength="100"
+                counter
+            ></v-text-field>
+          </v-form>
         </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>

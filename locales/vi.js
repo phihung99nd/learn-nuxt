@@ -24,6 +24,7 @@ export default {
     'Watch trailer': 'Xem trailer',
     'Todo List': 'Danh sách cần làm',
     'Add new to-do list': 'Tạo danh sách mới',
+    'Edit to-do list': 'Sửa danh sách',
     'Save': 'Lưu',
     'Close': 'Hủy',
     '{num} task(s) left': '{num} việc còn lại',
@@ -31,4 +32,5 @@ export default {
     'Share this list to collaborate with others': 'Chia sẻ danh sách để cùng làm việc với mọi người',
     'Copy URL': 'Sao chép URL',
     'Copied URL': 'Đã sao chép URL',
+    'This field is required': 'Trường này không được để trống'
 }

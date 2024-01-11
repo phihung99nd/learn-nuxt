@@ -74,7 +74,7 @@ bun run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
-## List kiến thức
+## Knowledge and tools
 
 ### 1. Javascript / Typescript
 
@@ -85,6 +85,7 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 - [Ref / Reactive state / Computed / Watch](https://vuejs.org/api/reactivity-core.html#ref)
 - [Props](https://vuejs.org/guide/components/props.html#props)
+- [Emits](https://vuejs.org/guide/components/events.html#emitting-and-listening-to-events)
 - [Provide / Inject](https://vuejs.org/guide/components/provide-inject.html#provide-inject)
 - [Event bus](https://v3-migration.vuejs.org/breaking-changes/events-api.html)
 - [New lifecycle hook](https://vuejs.org/api/composition-api-lifecycle.html#composition-api-lifecycle-hooks)
@@ -106,8 +107,10 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 - Data fetching with 2 ways ([composables](./composables/api) / [server](./server/api))
 - Global state management by Pinia in [store](./stores)
 - Singleton
+- Integrate with MongoDb/Mongoose to handle API
 
 ### 4. Library
 
 - [Vuetify](https://vuetifyjs.com/)
 - [I18n](https://i18n.nuxtjs.org/)
+- [Mongoose](https://mongoosejs.com/)

@@ -13,9 +13,13 @@ export default defineEventHandler(async event => {
         await TodoList.findOneAndUpdate(
             {_id: params.id, 'items._id': params.itemId},
             { $set: { 'items.$.name': body.name, 'items.$.checked': body.checked} },
-            {new: true}
+            {new: true, runValidators: true}
         )
     } catch (e) {
-
+        console.error(e);
+        throw createError({
+            statusCode: 500,
+            statusMessage: 'Something went wrong',
+        })
     }
 })
